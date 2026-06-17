@@ -27,11 +27,11 @@ export default function BottomNav() {
         <BookOpen size={22} />
       </button>
 
-      <button>
+      <button onClick={() => navigate("/insights")} className="text-slate-600">
         <Brain size={22} />
       </button>
 
-      <button>
+      <button onClick={() => navigate("/settings")} className="text-slate-600">
         <Settings size={22} />
       </button>
     </div>

@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { getTopics, saveTopics } from "../utils/storage";
 import BottomNav from "../components/BottomNav";
 import { Plus } from "lucide-react";
+import { formatDate } from "../utils/formatDate";
 
 export default function TopicsPage() {
   const [topics, setTopics] = useState([]);
@@ -38,6 +39,14 @@ export default function TopicsPage() {
           ) : (
             topics.map((topic) => (
               <Card key={topic.id}>
+                <div
+                  onClick={() => navigate(`/topic/${topic.id}`)}
+                  className="cursor-pointer"
+                ></div>
+                <div
+                  onClick={() => navigate(`/topic/${topic.id}`)}
+                  className="cursor-pointer"
+                ></div>
                 <div className="flex justify-between items-start">
                   <div>
                     <h2 className="text-xl font-semibold">{topic.topic}</h2>
@@ -61,8 +70,7 @@ export default function TopicsPage() {
                     </p>
 
                     <p className="text-slate-500 text-sm mt-3">
-                      Next Review:{" "}
-                      {new Date(topic.nextRevisionDate).toLocaleDateString()}
+                      Next Review: {formatDate(topic.nextRevisionDate)}
                     </p>
                   </div>
 
@@ -95,16 +103,17 @@ export default function TopicsPage() {
                     </button>
                   </div>
                 </div>
+
                 <button
                   onClick={() => navigate(`/review/${topic.id}`)}
                   className="
-                        mt-4
-                        w-full
-                        py-2
-                        rounded-xl
-                        bg-blue-600
-                        text-white
-                    "
+    mt-4
+    w-full
+    py-2
+    rounded-xl
+    bg-blue-600
+    text-white
+  "
                 >
                   Review
                 </button>

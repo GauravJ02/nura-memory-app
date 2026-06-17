@@ -4,15 +4,20 @@ import { getTopics } from "../utils/storage";
 import { reviewTopic } from "../utils/reviewEngine";
 import { useNavigate } from "react-router-dom";
 import { updateTopic } from "../utils/storage";
-
+import { getNextDueTopic } from "../utils/getNextDueTopic";
 export default function ReviewPage() {
   function handleReview(recallQuality) {
     const updatedTopic = reviewTopic(topic, recallQuality);
 
     updateTopic(updatedTopic);
-    console.log("Navigating to review complete");
 
-    navigate("/review-complete");
+    const nextDueTopic = getNextDueTopic(topic.id);
+
+    if (nextDueTopic) {
+      navigate(`/review/${nextDueTopic.id}`);
+    } else {
+      navigate("/review-complete");
+    }
   }
   const { id } = useParams();
   const navigate = useNavigate();
@@ -23,7 +28,7 @@ export default function ReviewPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-white via-slate-50 to-blue-50">
       <div className="max-w-sm mx-auto px-6 pt-10">
-        <button onClick={() => navigate(-1)} className="text-slate-500 mb-6">
+        <button onClick={() => navigate("/")} className="text-slate-500 mb-6">
           ← Back
         </button>
 

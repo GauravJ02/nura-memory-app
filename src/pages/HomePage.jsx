@@ -26,7 +26,7 @@ export default function HomePage() {
 
   const dueTopics = getDueTopics(topics);
 
-  const nextTopic = dueTopics[0];
+  const reviewCount = dueTopics.length;
   console.log(
     topics.map((t) => ({
       topic: t.topic,
@@ -34,10 +34,10 @@ export default function HomePage() {
     })),
   );
   console.log("Due Topics:", dueTopics);
-  console.log("Next Topic:", nextTopic);
+  console.log("Review Count:", reviewCount);
 
   return (
-    <div className="min-h-screen pb-28 bg-gradient-to-b from-white via-slate-50 to-blue-50">
+    <div className="h-screen pb-28 bg-gradient-to-b from-white via-slate-50 to-blue-50">
       <div className="max-w-sm mx-auto px-6 pt-10">
         <div className="mb-8">
           <p className="text-slate-400 text-sm font-medium">Welcome Back</p>
@@ -84,50 +84,54 @@ export default function HomePage() {
         </div>
         <div className="mt-5">
           <Card>
-            <p className="text-slate-500 text-sm">Today's Focus</p>
+            <p className="text-slate-500 text-sm">Today's Reviews</p>
 
-            <div className="flex items-center justify-between mt-2">
-              <h2 className="text-3xl font-semibold">
-                {nextTopic?.topic || "No Reviews Due"}
-              </h2>
+            {reviewCount > 0 ? (
+              <>
+                <div className="flex items-center justify-between mt-2">
+                  <h2 className="text-3xl font-semibold">
+                    {reviewCount} Topics Due
+                  </h2>
 
-              <div
-                className="
-                  px-3
-                  py-1
-                  rounded-full
-                  bg-teal-50
-                  text-teal-600
-                  text-xs
-                  font-medium
-                "
-              >
-                {nextTopic ? "Due" : "Completed"}
-              </div>
-            </div>
+                  <div
+                    className="
+          px-3
+          py-1
+          rounded-full
+          bg-amber-50
+          text-amber-600
+          text-xs
+          font-medium
+        "
+                  >
+                    Pending
+                  </div>
+                </div>
 
-            <p className="text-slate-500 mt-1">
-              {nextTopic?.subject || "You're all caught up"}
-            </p>
+                <p className="text-slate-500 mt-1">
+                  Ready to strengthen your memory.
+                </p>
+              </>
+            ) : (
+              <>
+                <h2 className="text-3xl font-semibold mt-2">
+                  🎉 All Reviews Complete
+                </h2>
 
-            {dueTopics.length > 1 && (
-              <p className="text-orange-500 text-sm mt-2">
-                +{dueTopics.length - 1} more due today
-              </p>
+                <p className="text-slate-500 mt-3">
+                  You're all caught up today.
+                </p>
+              </>
             )}
-
-            <p className="text-teal-600 text-sm mt-4">
-              A short review today can strengthen long-term recall.
-            </p>
 
             <PrimaryButton
               onClick={() =>
-                nextTopic
-                  ? navigate(`/review/${nextTopic.id}`)
+                reviewCount > 0
+                  ? navigate(`/review/${dueTopics[0].id}`)
                   : navigate("/topics")
               }
             >
-              {nextTopic ? "Start Review" : "View Topics"}
+              {reviewCount > 0 ? "Start Review" : "View Topics"}
             </PrimaryButton>
           </Card>
         </div>
